@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#1389ec">
+<title>MILK EXPENSE CALCULATOR</title>
+<style>
+*{box-sizing:border-box}
+:root{--blue:#1689ed;--dark:#102c61;--green:#27a15c;--bg:#eef7ff}
+body{margin:0;font-family:Arial,Helvetica,sans-serif;color:var(--dark);background:linear-gradient(135deg,#eaf7ff,#f8fbff);min-height:100vh}
+.app{max-width:1100px;margin:auto;padding:14px}
+.hero{background:linear-gradient(105deg,#1689ed,#0875dc);border-radius:25px;min-height:205px;padding:25px 38px;position:relative;overflow:hidden;color:#fff;box-shadow:0 10px 28px #167ed52c}
+.hero h1{font-size:clamp(34px,6vw,61px);line-height:.98;margin:5px 0 13px;letter-spacing:-2px;max-width:650px}
+.hero p{font-size:16px;margin:0;max-width:600px}
+.cow{position:absolute;left:20px;bottom:-15px;font-size:100px;filter:drop-shadow(0 5px 4px #004f9c55)}
+.milk-art{position:absolute;right:-10px;bottom:-38px;font-size:180px;filter:drop-shadow(0 6px 5px #004f9c55)}
+.splash{position:absolute;right:110px;top:20px;font-size:65px;opacity:.95}
+.layout{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:16px}
+.card{background:rgba(255,255,255,.93);border:1px solid #fff;border-radius:22px;padding:20px;box-shadow:0 9px 28px #31577a18}
+.head{display:flex;align-items:center;gap:13px;margin-bottom:17px}.headicon{width:55px;height:55px;border-radius:50%;display:grid;place-items:center;background:#1689ed;color:white;font-size:29px;font-weight:bold}
+.head h2{margin:0;font-size:25px}.head p{margin:3px 0 0;color:#6f7e91;font-size:14px}
+.rate{background:#f0f7ff;border-radius:17px;padding:14px 16px;margin-bottom:10px}.rate label{display:block;font-weight:bold;margin-bottom:8px}
+input{border:2px solid #d2dce8;border-radius:10px;background:#fff;width:100%;padding:12px;font-size:19px;outline:none}
+input:focus{border-color:#1689ed}
+.qrow{display:grid;grid-template-columns:55px 1fr 130px 45px;align-items:center;gap:10px;padding:13px 5px;border-bottom:1px solid #eef2f6;border-radius:12px}
+.qrow:nth-child(2){background:#f2f8ff}.qrow:nth-child(3){background:#f2fbf7}.qrow:nth-child(4){background:#fff9ed}.qrow:nth-child(5){background:#fff3f8}
+.qicon{width:48px;height:48px;display:grid;place-items:center}.qicon svg{width:46px;height:46px;display:block}.qtitle{font-size:17px;font-weight:bold}.qsub{font-size:12px;color:#748197;margin-top:3px}.days{font-size:14px;color:#617085}
+.qrow input{text-align:center;padding:10px}
+.buttons{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px}.btn{border:0;border-radius:14px;padding:14px;font-size:16px;font-weight:bold;cursor:pointer}.calc{grid-column:1/-1;background:linear-gradient(100deg,#1689ed,#1874e3);color:white;box-shadow:0 8px 18px #1689ed3d}.reset{background:#edf4fa;color:#155ca6}.clear{background:#fff0f2;color:#d12e35}
+.results{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}.stat{border-radius:18px;padding:17px 13px;text-align:center;background:#f2f9ff;border:1px solid #e2eff9}.stat:nth-child(2){background:#fff9eb}.stat:nth-child(3){background:#f1faf4}.staticon{font-size:30px}.statlabel{font-size:13px;font-weight:bold;margin-top:4px}.value{font-size:26px;font-weight:900;margin-top:7px}.blue{color:#167be0}.green{color:#168d4d}.gold{color:#159447}
+.average{margin-top:10px;background:#effaf3;border-radius:17px;padding:13px 18px;display:flex;justify-content:space-between;align-items:center}.average small{display:block;color:#687889}.average strong{font-size:25px;color:#188c4d}
+.chart{margin-top:15px;background:#fff;border:1px solid #e3eaf1;border-radius:19px;padding:17px}.chart h2{margin:0;font-size:21px}.chart p{margin:4px 0 13px;color:#728094;font-size:13px}.bars{height:230px;display:flex;align-items:flex-end;gap:15px;border-bottom:1px solid #d8e1e9;padding:0 8px}.barwrap{height:100%;flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end}.barvalue{font-weight:bold;font-size:14px;margin-bottom:5px}.bar{width:min(60px,80%);height:0;border-radius:9px 9px 2px 2px;transition:height .4s ease}.b1{background:#3f9cf1}.b2{background:#ffb83e}.b3{background:#52bd67}.b4{background:#a14de6}.barlabel{font-size:13px;font-weight:bold;margin-top:9px}.barunit{font-size:11px;color:#748197;margin-top:2px}
+@media(max-width:760px){.layout{grid-template-columns:1fr}.hero{min-height:190px;padding:25px 25px}.hero h1{font-size:38px}.cow{font-size:75px;left:-5px}.milk-art{font-size:120px;right:-15px}.splash{right:75px;font-size:40px}}
+@media(max-width:500px){.app{padding:8px}.hero{border-radius:20px;padding:20px 18px;min-height:180px}.hero h1{font-size:31px}.hero p{font-size:12px;max-width:300px}.cow{font-size:58px}.milk-art{font-size:95px}.card{padding:14px}.qrow{grid-template-columns:43px 1fr 82px 31px}.qicon{font-size:27px}.qtitle{font-size:15px}.results{grid-template-columns:1fr 1fr}.stat:nth-child(3){grid-column:1/-1}.value{font-size:22px}.bars{gap:6px}.barlabel{font-size:11px}}
+</style>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#1689ed">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+</head>
+<body>
+<div class="app">
+<header class="hero">
+  <div class="cow" aria-hidden="true">🐄</div>
+  <div class="splash">💦</div>
+  <div class="milk-art" aria-hidden="true">🥛</div>
+  <h1>MILK EXPENSE<br>CALCULATOR</h1>
+  <p>Calculate your monthly milk consumption and amount due</p>
+</header>
+
+<main class="layout">
+<section class="card">
+  <div class="head"><div class="headicon">₹</div><div><h2>Input Details</h2><p>Enter rate per liter and number of days for each quantity</p></div></div>
+  <div class="rate"><label>Rate per Liter (₹)</label><input id="rate" type="number" min="0" step=".01" placeholder="60"></div>
+
+  <div class="qrow"><div class="qicon"><svg viewBox="0 0 64 64" aria-hidden="true"><path d="M16 9h32l-4 45H20L16 9Z" fill="#fff" stroke="#6c7b8d" stroke-width="2.5"/><path d="M18 26h28l-2 28H20l-2-28Z" fill="#f7fbff"/><path d="M19 27h26l-2 26H21L19 27Z" fill="#eef6fb"/><path d="M17 10h30" stroke="#8fa0b0" stroke-width="3" stroke-linecap="round"/></svg></div><div><div class="qtitle">250 ml</div><div class="qsub">0.25 liter per day</div></div><input id="d250" type="number" min="0" step="1" placeholder="0"><div class="days">days</div></div>
+  <div class="qrow"><div class="qicon"><svg viewBox="0 0 64 64" aria-hidden="true"><path d="M13 17h37v23c0 9-7 15-18 15S14 49 14 40V17Z" fill="#fff" stroke="#6c7b8d" stroke-width="2.5"/><path d="M50 23h5c7 0 8 11 1 15-2 1-4 1-6 1" fill="none" stroke="#6c7b8d" stroke-width="4" stroke-linecap="round"/><path d="M14 20h36" stroke="#a9b7c4" stroke-width="2"/><path d="M17 26h32v13c0 8-6 12-16 12s-16-4-16-12V26Z" fill="#f5faff"/></svg></div><div><div class="qtitle">500 ml</div><div class="qsub">0.5 liter per day</div></div><input id="d500" type="number" min="0" step="1" placeholder="0"><div class="days">days</div></div>
+  <div class="qrow"><div class="qicon"><svg viewBox="0 0 64 64" aria-hidden="true"><path d="M27 10h10v7c0 3 7 7 9 11v27H18V28c2-4 9-8 9-11V10Z" fill="#fff" stroke="#607589" stroke-width="2.5"/><path d="M26 10h12v6H26z" fill="#187fe3"/><path d="M20 31h24v24H20z" fill="#f4fbff"/><path d="M22 35h20" stroke="#d9e8f2" stroke-width="2"/></svg></div><div><div class="qtitle">750 ml</div><div class="qsub">0.75 liter per day</div></div><input id="d750" type="number" min="0" step="1" placeholder="0"><div class="days">days</div></div>
+  <div class="qrow"><div class="qicon"><svg viewBox="0 0 64 64" aria-hidden="true"><path d="M25 7h14v13l12 30c1 4-2 7-6 7H19c-4 0-7-3-6-7l12-30V7Z" fill="#fff" stroke="#52687b" stroke-width="2.5"/><path d="M24 7h16v6H24z" fill="#263746"/><path d="M17 41h30l4 10c1 3-1 5-5 5H18c-4 0-6-2-5-5l4-10Z" fill="#f5f9fc"/><path d="M21 45h22" stroke="#d9e4ec" stroke-width="2"/></svg></div><div><div class="qtitle">1000 ml (1 Liter)</div><div class="qsub">1 liter per day</div></div><input id="d1000" type="number" min="0" step="1" placeholder="0"><div class="days">days</div></div>
+
+  <div class="buttons">
+    <button class="btn calc" onclick="calculate()">🧮 &nbsp; Calculate Amount &nbsp; ›</button>
+    <button class="btn reset" onclick="resetForm()">↻ &nbsp; Reset</button>
+    <button class="btn clear" onclick="clearAll()">♜ &nbsp; Clear All</button>
+  </div>
+</section>
+
+<section>
+<div class="card">
+  <div class="head"><div class="headicon" style="background:#25a35d">₹</div><div><h2>Result</h2><p>Your milk consumption summary</p></div></div>
+  <div class="results">
+    <div class="stat"><div class="staticon">💧</div><div class="statlabel">Total Milk Consumed</div><div class="value blue" id="total">0 L</div></div>
+    <div class="stat"><div class="staticon">🪙</div><div class="statlabel">Total Amount Due</div><div class="value green" id="amount">₹0.00</div></div>
+    <div class="stat"><div class="staticon">📅</div><div class="statlabel">Total Days</div><div class="value" id="totalDays">0</div></div>
+  </div>
+  <div class="average"><div><small>📊 Average Quantity per Day</small></div><strong id="average">0 L</strong></div>
+</div>
+
+<div class="chart">
+  <h2>📊 Milk Quantity Breakdown</h2><p>Number of days for each quantity</p>
+  <div class="bars">
+    <div class="barwrap"><div class="barvalue" id="v250">0</div><div class="bar b1" id="b250"></div><div class="barlabel">250 ml</div><div class="barunit">(0.25 L)</div></div>
+    <div class="barwrap"><div class="barvalue" id="v500">0</div><div class="bar b2" id="b500"></div><div class="barlabel">500 ml</div><div class="barunit">(0.5 L)</div></div>
+    <div class="barwrap"><div class="barvalue" id="v750">0</div><div class="bar b3" id="b750"></div><div class="barlabel">750 ml</div><div class="barunit">(0.75 L)</div></div>
+    <div class="barwrap"><div class="barvalue" id="v1000">0</div><div class="bar b4" id="b1000"></div><div class="barlabel">1000 ml</div><div class="barunit">(1 L)</div></div>
+  </div>
+</div>
+</section>
+</main>
+</div>
+
+<script>
+const $=id=>document.getElementById(id);
+const num=id=>Number($(id).value)||0;
+function calculate(){
+ const rate=num("rate"),d250=num("d250"),d500=num("d500"),d750=num("d750"),d1000=num("d1000");
+ const total=d250*.25+d500*.5+d750*.75+d1000;
+ const days=d250+d500+d750+d1000;
+ $("total").textContent=total.toFixed(2).replace(/\.00$/,"")+" L";
+ $("amount").textContent="₹"+(total*rate).toLocaleString("en-IN",{minimumFractionDigits:2,maximumFractionDigits:2});
+ $("totalDays").textContent=days;
+ $("average").textContent=(days?total/days:0).toFixed(2)+" L";
+ const a=[["250",d250],["500",d500],["750",d750],["1000",d1000]],max=Math.max(...a.map(x=>x[1]),1);
+ a.forEach(([k,v])=>{$("v"+k).textContent=v;$("b"+k).style.height=(v/max*170)+"px"});
+}
+function resetForm(){["rate","d250","d500","d750","d1000"].forEach(id=>$(id).value="");calculate()}
+function clearAll(){resetForm()}
+calculate();
+</script>
+<script>
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", function () {
+    navigator.serviceWorker.register("sw.js").catch(function(){});
+  });
+}
+</script>
+</body>
+</html>
